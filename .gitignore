@@ -170,6 +170,3 @@ cython_debug/
 
 # MacOS
 .DS_Store
-
-# VeriEQL submodule 
-verieql/VeriEQL_vanilla/
