@@ -1,1 +1,1 @@
-# SpotIt-
+# SpotItPlus
