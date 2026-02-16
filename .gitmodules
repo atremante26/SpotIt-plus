@@ -1,0 +1,4 @@
+[submodule "verieql"]
+	path = verieql
+	url = https://github.com/atremante26/VeriEQL.git
+	branch = constraints
