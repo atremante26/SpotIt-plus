@@ -533,8 +533,6 @@ def get_ordering_dependency_prompt(
 An ordering dependency means: for ALL rows, {det_schema_col} {operator} {dep_schema_col}
 
 Examples of VALID ordering dependencies:
-- birth_date <= death_date (temporal: can't die before birth)
-- start_date <= end_date (temporal: can't end before start)
 - min_value <= max_value (logical: min must be <= max)
 - low_estimate <= high_estimate (logical: low must be <= high)
 
@@ -572,7 +570,6 @@ Sample pairs (first 10 rows):
 Is this a meaningful ordering dependency that should be enforced as a constraint?
 
 Consider:
-- Are these temporal columns where ordering makes sense? (dates, timestamps)
 - Is this a logical relationship? (min/max, start/end, lower/upper bounds)
 - Could this be coincidental in the current data but not a true constraint?
 - Does enforcing this help verify query correctness?"""

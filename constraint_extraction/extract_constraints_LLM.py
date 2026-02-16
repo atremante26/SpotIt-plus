@@ -24,6 +24,7 @@ REAL_LOWER_BOUND = -1e308
 REAL_UPPER_BOUND = 1e308
 INTEGER_TYPES = {'INTEGER', 'INT', 'SMALLINT', 'BIGINT', 'TINYINT', 'BOOLEAN'}
 FLOAT_TYPES = {'REAL', 'DOUBLE', 'FLOAT', 'NUMERIC', 'DECIMAL'}
+DATE_TYPES = {'DATE', 'DATETIME', 'TIMESTAMP', 'TIME', 'YEAR'}
 
 def extract(db_path: str):
     db_name = os.path.basename(db_path)
@@ -363,11 +364,14 @@ def extract(db_path: str):
             
             # Convert categories to match schema type
             try:
+                # Skip date columns
+                if col_type in DATE_TYPES: 
+                    continue
                 if col_type in INTEGER_TYPES:
                     categories = [int(cat) for cat in unique_vals]
                 elif col_type in FLOAT_TYPES:
                     categories = [float(cat) for cat in unique_vals]
-                else:  # VARCHAR/TEXT/CHAR/DATE
+                else:  # VARCHAR/TEXT/CHAR
                     categories = [str(cat) for cat in unique_vals]
             except (ValueError, TypeError):
                 # Type conversion failed, skip this constraint

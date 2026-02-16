@@ -8,6 +8,9 @@ from collections import defaultdict
 from itertools import combinations
 from utils import find_schema_column, NumpyEncoder, check_dependency, check_ordering_dependency
 warnings.filterwarnings('ignore', message='Could not infer format')
+INTEGER_TYPES = {'INTEGER', 'INT', 'SMALLINT', 'BIGINT', 'TINYINT', 'BOOLEAN'}
+FLOAT_TYPES = {'REAL', 'DOUBLE', 'FLOAT', 'NUMERIC', 'DECIMAL'}
+DATE_TYPES = {'DATE', 'DATETIME', 'TIMESTAMP', 'TIME', 'YEAR'}
     
 def extract(db_path: str):
     db_name = os.path.basename(db_path)
@@ -186,11 +189,14 @@ def extract(db_path: str):
             
             # Convert categories to match schema type
             try:
-                if col_type == 'INTEGER':
+                # Skip date columns
+                if col_type in DATE_TYPES: 
+                    continue
+                if col_type in INTEGER_TYPES:
                     categories = [int(cat) for cat in unique_vals]
-                elif col_type == 'REAL':
+                elif col_type in FLOAT_TYPES:
                     categories = [float(cat) for cat in unique_vals]
-                else:  # VARCHAR/TEXT/CHAR/DATE
+                else:  # VARCHAR/TEXT/CHAR
                     categories = [str(cat) for cat in unique_vals]
             except (ValueError, TypeError):
                 # Type conversion failed, skip this constraint
@@ -333,13 +339,31 @@ def find_dependency(df, schema, table_name=""):
     numeric_columns = set()
     
     for col in columns:
-        # Check if column can be converted to numeric
-        try:
-            test = pd.to_numeric(df[col].dropna().head(10), errors='coerce')
-            if test.notna().any():  # At least some values are numeric
-                numeric_columns.add(col)
-        except:
-            pass
+        # Get schema type directly from the table
+        schema_col_type = None
+        
+        if table_name in schema and col in schema[table_name]:
+            schema_col_type = schema[table_name][col].upper()
+        
+        if not schema_col_type:
+            continue
+        
+        # Check if schema type is numeric 
+        numeric_types = INTEGER_TYPES + FLOAT_TYPES
+        is_string_type = any(t in schema_col_type for t in ['VARCHAR', 'TEXT', 'CHAR'])
+        is_numeric_type = any(t in schema_col_type for t in numeric_types)
+        
+        # Only add if numeric type AND NOT string type
+        if is_numeric_type and not is_string_type:
+            # Verify data is actually numeric
+            try:
+                non_null_vals = df[col].dropna()
+                if len(non_null_vals) > 0:
+                    test = pd.to_numeric(non_null_vals, errors='coerce')
+                    if test.notna().all():  # ALL values must be numeric
+                        numeric_columns.add(col)
+            except:
+                pass
     
     # Check all pairs for functional dependencies
     for col_a, col_b in combinations(columns, 2):
