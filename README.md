@@ -4,7 +4,7 @@ We present SpotIt+, a bounded-verification-based tool for Text-to-SQL evaluation
 
 A key challenge is ensuring counterexamples reflect realistic data. SpotIt+ addresses this through a constraint-extraction pipeline that mines database constraints from example databases and uses a LLM to validate whether mined constraints represent genuine domain properties. The system extracts five constraint types (range, categorical, null, functional dependencies, and ordering dependencies) and encodes them as SMT constraints, guiding the Z3 solver toward realistic counterexamples.
 
-The accompanying paper [SpotIt+: Verification-based Text-to-SQL Evaluation with Database Constraints](https://arxiv.org/abs/2603.04334) is currently under review.
+The original SpotIt was described in our [ICLR'26 paper](https://arxiv.org/abs/2510.26840). And the SpotIt+ system was described in our paper [SpotIt+: Verification-based Text-to-SQL Evaluation with Database Constraints](https://arxiv.org/abs/2603.04334).
 
 ## Installation
 
@@ -123,13 +123,10 @@ python constraint_extraction/extract_constraints.py
 
 ## Citation
 ```
-@misc{klopfenstein2026spotitverificationbasedtexttosqlevaluation,
-      title={SpotIt+: Verification-based Text-to-SQL Evaluation with Database Constraints}, 
-      author={Rocky Klopfenstein and Yang He and Andrew Tremante and Yuepeng Wang and Nina Narodytska and Haoze Wu},
-      year={2026},
-      eprint={2603.04334},
-      archivePrefix={arXiv},
-      primaryClass={cs.DB},
-      url={https://arxiv.org/abs/2603.04334}, 
+@article{klopfenstein2026spotit+,
+  title={SpotIt+: Verification-based Text-to-SQL Evaluation with Database Constraints},
+  author={Klopfenstein, Rocky and He, Yang and Tremante, Andrew and Wang, Yuepeng and Narodytska, Nina and Wu, Haoze},
+  journal={arXiv preprint arXiv:2603.04334},
+  year={2026}
 }
 ```
