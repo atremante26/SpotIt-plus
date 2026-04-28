@@ -6,6 +6,7 @@ experiments/
 *.db
 *.sqlite
 *.sqlite3
+counterexample.txt
 
 # Constraint extraction outputs
 constraint_extraction/BIRD_*
@@ -169,4 +170,5 @@ cython_debug/
 *.swo
 
 # MacOS
+.DS_Store.env
 .DS_Store

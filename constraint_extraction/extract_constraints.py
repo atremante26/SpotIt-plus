@@ -17,7 +17,7 @@ def extract(db_path: str):
     
     SQL_PATH = db_path + "/" + db_name + ".sqlite"
     DESCRIPTION_PATH = db_path + "/database_description"
-    DEV_CONSTRAINTS_PATH = "../BIRD_schemas/dev_constraints.json" 
+    DEV_CONSTRAINTS_PATH = "verieql/BIRD_schemas/dev_constraints.json" 
 
     # Extract table names and descriptions
     table_names = []
@@ -71,7 +71,7 @@ def extract(db_path: str):
         return None
     
     # Load existing schema
-    SCHEMA_PATH = "../BIRD_schemas/table_to_columns.json"
+    SCHEMA_PATH = "verieql/BIRD_schemas/table_to_columns.json"
     if os.path.exists(SCHEMA_PATH):
         with open(SCHEMA_PATH, 'r') as f:
             all_schemas = json.load(f)
@@ -456,17 +456,17 @@ def find_dependency(df, schema, table_name=""):
 if __name__ == "__main__":
     # TEST WITH ALL DATABASES
     database_paths = {
-        "thrombosis_prediction": "verieql/BIRD_dev/thrombosis_prediction",
-        "california_schools": "verieql/BIRD_dev/california_schools",
-        "debit_card_specializing": "verieql/BIRD_dev/debit_card_specializing",
-        "financial": "verieql/BIRD_dev/financial",
-        "formula_1": "verieql/BIRD_dev/formula_1",
-        "card_games": "verieql/BIRD_dev/card_games",
-        "european_football_2": "verieql/BIRD_dev/european_football_2",
-        "toxicology": "verieql/BIRD_dev/toxicology",
-        "student_club": "verieql/BIRD_dev/student_club",
-        "superhero": "verieql/BIRD_dev/superhero",
-        "codebase_community": "verieql/BIRD_dev/codebase_community"
+        "thrombosis_prediction": "constraint_extraction/BIRD_dev/thrombosis_prediction",
+        "california_schools": "constraint_extraction/BIRD_dev/california_schools",
+        "debit_card_specializing": "constraint_extraction/BIRD_dev/debit_card_specializing",
+        "financial": "constraint_extraction/BIRD_dev/financial",
+        "formula_1": "constraint_extraction/BIRD_dev/formula_1",
+        "card_games": "constraint_extraction/BIRD_dev/card_games",
+        "european_football_2": "constraint_extraction/BIRD_dev/european_football_2",
+        "toxicology": "constraint_extraction/BIRD_dev/toxicology",
+        "student_club": "constraint_extraction/BIRD_dev/student_club",
+        "superhero": "constraint_extraction/BIRD_dev/superhero",
+        "codebase_community": "constraint_extraction/BIRD_dev/codebase_community"
     }
     
     all_constraints = {}  

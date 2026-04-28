@@ -16,8 +16,8 @@ The original SpotIt was described in our [ICLR'26 paper](https://arxiv.org/abs/2
 
 SpotIt+ uses git submodules. Clone with the `--recursive` flag:
 ```bash
-git clone --recursive https://github.com/atremante26/SpotItPlus.git
-cd SpotItPlus
+git clone --recursive https://github.com/ai-ar-research/SpotIt-plus.git
+cd SpotIt-plus
 ```
 
 If you already cloned without `--recursive`, initialize submodules:
@@ -43,23 +43,36 @@ venv\Scripts\activate  # On Windows
 pip install -r requirements.txt
 ```
 
+### Set Up OpenAI API Key
+
+Constraint extraction requires an OpenAI API key. Copy the example file and add your key:
+```bash
+cp .env.example .env
+# edit .env and set OPENAI_API_KEY=sk-...
+```
+
+### Download BIRD Dataset
+
+Constraint extraction requires the BIRD development dataset. Download and extract it into the correct location:
+```bash
+# Download and extract
+curl -L https://bird-bench.oss-cn-beijing.aliyuncs.com/dev.zip -o dev.zip
+unzip dev.zip
+unzip dev_20240627/dev_databases.zip
+
+# Move to correct location
+mv dev_databases constraint_extraction/BIRD_dev
+
+# Clean up
+rm -rf dev.zip dev_20240627/
+```
+
 ### Set Up Z3
 
-SpotIt+ uses a custom version of Z3 from VeriEQL. Follow these steps carefully:
-
-**Copy VeriEQL's custom Z3 bindings:**
-   
-   You need Z3 bindings from a working VeriEQL installation. If you have access to one, copy them:
+SpotIt+ uses a custom version of Z3 from VeriEQL. Copy VeriEQL's custom Z3 bindings into your virtual environment:
 ```bash
-# Replace /path/to/working/venv with your actual path
-cp /path/to/working/venv/lib/python3.11/site-packages/z3/*.py \
-   venv/lib/python3.11/site-packages/z3/
-   
-cp -r /path/to/working/venv/lib/python3.11/site-packages/z3/lib \
-   venv/lib/python3.11/site-packages/z3/
+cp verieql/z3py_libs/*.py venv/lib/python3.11/site-packages/z3/
 ```
-   
-   Otherwise, you may need to build Z3 from source (see VeriEQL documentation).
 
 ## Quick Start
 
@@ -123,10 +136,13 @@ python constraint_extraction/extract_constraints.py
 
 ## Citation
 ```
-@article{klopfenstein2026spotit+,
-  title={SpotIt+: Verification-based Text-to-SQL Evaluation with Database Constraints},
-  author={Klopfenstein, Rocky and He, Yang and Tremante, Andrew and Wang, Yuepeng and Narodytska, Nina and Wu, Haoze},
-  journal={arXiv preprint arXiv:2603.04334},
-  year={2026}
+@misc{tremante2026spotitverificationbasedtexttosqlevaluation,
+      title={SpotIt+: Verification-based Text-to-SQL Evaluation with Database Constraints}, 
+      author={Andrew Tremante and Yang He and Rocky Klopfenstein and Yuepeng Wang and Nina Narodytska and Haoze Wu},
+      year={2026},
+      eprint={2603.04334},
+      archivePrefix={arXiv},
+      primaryClass={cs.DB},
+      url={https://arxiv.org/abs/2603.04334}, 
 }
 ```
