@@ -1,10 +1,10 @@
-z3-solver
+z3-solver==4.15.0
 mo-sql-parsing==8.205.22260
 ujson
 ordered_set
 lark
 tqdm
-pandas
+pandas==2.3.3
 pyyaml
 prettytable
 mysql-connector-python
